@@ -27,6 +27,7 @@ library
     text,
     yesod,
     autogen,
+    haskell-generate,
     haskell-src-exts,
     classy-prelude,
     directory
