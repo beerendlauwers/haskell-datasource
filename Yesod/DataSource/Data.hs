@@ -20,9 +20,9 @@ mkYesodSubData "DataSource" [parseRoutes|
 /datasource DataSourceInputR POST GET
 |]
 
-data DataSourceInput = DataSourceInput
+data DataSourceInput a = DataSourceInput
     { dataSourceName        :: Text
-    , dataSourceStart      :: Int
-    , dataSourceEnd         :: Int
+    , dataSourceStart      :: a
+    , dataSourceEnd         :: a
     }
   deriving Show
