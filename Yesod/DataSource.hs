@@ -13,15 +13,9 @@ import Yesod.DataSource.Data
 import Yesod
 import ClassyPrelude
 
---instance Yesod DataSource
---instance RenderMessage DataSource FormMessage where
--- renderMessage _ _ = defaultFormMessage
-
---instance YesodSubDispatch DataSource (HandlerT DataSource IO) where
 instance YesodDataSource m => YesodSubDispatch DataSource (HandlerT m IO) where
     yesodSubDispatch = $(mkYesodSubDispatch resourcesDataSource)
 
---getDataSourceInputR :: HandlerT DataSource (HandlerT DataSource IO) Html
 getDataSourceInputR :: YesodDataSource m => HandlerT DataSource (HandlerT m IO) Html
 getDataSourceInputR = do 
   toMaster <- getRouteToParent
@@ -37,21 +31,17 @@ getDataSourceInputR = do
                     <button>Submit
             |]
 
---getSubHomeR :: HandlerT DataSource (HandlerT DataSource IO) Html
 getSubHomeR :: YesodDataSource m => HandlerT DataSource (HandlerT m IO) Html
 getSubHomeR = do
  toMaster <- getRouteToParent
  lift $ defaultLayout [whamlet|<a href=@{toMaster SubHomeR}> |]
- 
---simpleSourceForm :: AForm (HandlerT DataSource IO) DataSourceInput
-simpleSourceForm :: YesodDataSource m => AForm (HandlerT m IO) DataSourceInput
+
+simpleSourceForm :: YesodDataSource m => AForm (HandlerT m IO) (DataSourceInput Int)
 simpleSourceForm = DataSourceInput
   <$> areq textField "Name" Nothing
   <*> areq intField "Start" Nothing
   <*> areq intField "End" Nothing
 
-  
---postDataSourceInputR :: HandlerT DataSource (HandlerT DataSource IO) Html
 postDataSourceInputR :: YesodDataSource m => HandlerT DataSource (HandlerT m IO) Html
 postDataSourceInputR = do
     toMaster <- getRouteToParent
